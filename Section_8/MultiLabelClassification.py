@@ -22,7 +22,7 @@ print(test)
 X_train, X_test, y_train, y_test = train_test_split(X_torch, y_torch, test_size=0.2)
 
 # %% dataset and dataloader
-class MultilabelDatase(Dataset):
+class MultilabelDataset(Dataset):
     def __init__(self, X, y):
         self.X = X
         self.y = y
@@ -33,7 +33,7 @@ class MultilabelDatase(Dataset):
     def __getitem__(self, idx):
         return self.X[idx], self.y[idx]
     
-multilabel_data = MultilabelDatase(X_train, y_train)
+multilabel_data = MultilabelDataset(X_train, y_train)
 train_loader = DataLoader(dataset=multilabel_data, batch_size=10)
 # %% model
 # topology: fc1, relu, fc2
@@ -55,5 +55,5 @@ class MultilabelNetwork(nn.Module):
     
 input_dim = X_torch.shape[1]
 output_dim = y_torch.shape[0]
-
+model = MultilabelNetwork()
 # %%
