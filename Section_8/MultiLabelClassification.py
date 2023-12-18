@@ -55,5 +55,38 @@ class MultilabelNetwork(nn.Module):
     
 input_dim = X_torch.shape[1]
 output_dim = y_torch.shape[0]
-model = MultilabelNetwork()
+model = MultilabelNetwork(input_size=input_dim, hidden_size=20, output_size=output_dim)
+model.train()
+# %%
+loss_fn = nn.BCEWithLogitsLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+losses = []
+slope, bias = [], []
+number_epochs = 100
+# %%
+for epoch in range(number_epochs):
+    for j, data in enumerate(train_loader):
+        print("what is {}?".format(j))
+
+        # optimization
+        optimizer.zero_grad()
+
+        # forward pass
+        y_hat = model(data[0])
+        print(y_hat.shape)
+        print(data[1].shape)
+        exit()
+
+        # compute loss
+        loss = loss_fn(y_hat, data[1])
+        losses.append(loss.item())
+
+        # backprop
+        loss.backward()
+
+        # update weights
+        optimizer.step()
+
+    if (epoch % 10 == 0):
+        print(f"Epoch: {epoch}, Loss: {loss.data}")
 # %%
