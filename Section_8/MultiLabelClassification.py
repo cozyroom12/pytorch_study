@@ -89,4 +89,5 @@ for epoch in range(number_epochs):
     if (epoch % 10 == 0): 
         print(f"Epoch: {epoch}, Loss: {loss.data}")
 # %%
-print("hello")
+print("Error: torch size different ")
+# %%
