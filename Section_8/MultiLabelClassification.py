@@ -75,10 +75,9 @@ for epoch in range(number_epochs):
         y_hat = model(data[0])
         print(y_hat.shape)
         print(data[1].shape)
-        exit()
 
         # compute loss
-        loss = loss_fn(y_hat, data[1])
+        loss = loss_fn(y_hat, data[1]) # -> torch size 다름
         losses.append(loss.item())
 
         # backprop
@@ -87,6 +86,7 @@ for epoch in range(number_epochs):
         # update weights
         optimizer.step()
 
-    if (epoch % 10 == 0):
+    if (epoch % 10 == 0): 
         print(f"Epoch: {epoch}, Loss: {loss.data}")
 # %%
+print("hello")
