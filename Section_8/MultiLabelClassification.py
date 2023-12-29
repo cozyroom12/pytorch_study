@@ -54,7 +54,7 @@ class MultilabelNetwork(nn.Module):
         return x 
     
 input_dim = X_torch.shape[1]
-output_dim = y_torch.shape[0]
+output_dim = y_torch.shape[1] # here it should refer to .shape[1]
 model = MultilabelNetwork(input_size=input_dim, hidden_size=20, output_size=output_dim)
 model.train()
 # %%
@@ -66,15 +66,15 @@ number_epochs = 100
 # %%
 for epoch in range(number_epochs):
     for j, data in enumerate(train_loader):
-        print("what is {}?".format(j))
+        #print("Batch number: {}?".format(j))
 
         # optimization
         optimizer.zero_grad()
 
         # forward pass
         y_hat = model(data[0])
-        print(y_hat.shape)
-        print(data[1].shape)
+        #print(y_hat.shape)
+        #print(data[1].shape)
 
         # compute loss
         loss = loss_fn(y_hat, data[1]) # -> torch size 다름
@@ -88,6 +88,11 @@ for epoch in range(number_epochs):
 
     if (epoch % 10 == 0): 
         print(f"Epoch: {epoch}, Loss: {loss.data}")
-# %%
-print("Error: torch size different ")
+# %% losses
+sns.scatterplot(x=range(len(losses)), y=losses, alpha=0.1)
+# %% test the model
+X_test_torch = torch.FloatTensor(X_test)
+with torch.no_grad():
+    y_test_hat = model(X_test_torch).round()
+
 # %%
