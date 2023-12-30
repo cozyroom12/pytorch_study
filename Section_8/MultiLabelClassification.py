@@ -95,4 +95,16 @@ X_test_torch = torch.FloatTensor(X_test)
 with torch.no_grad():
     y_test_hat = model(X_test_torch).round()
 
+# %% Naive classifier accuracy 
+# convert [1, 1, 0] to string '[1. 1. 0.]' 
+y_test_str = [str(i) for i in y_test.detach().numpy()]
+y_test_str 
+
+most_common_cnt = Counter(y_test_str).most_common()[0][1]
+print(f"Naive classifier: {most_common_cnt/len(y_test_str) * 100}%")
+
+# %% Test accuracy 
+test_acc = accuracy_score(y_test, y_test_hat)
+print(f"Test accuracy: {test_acc * 100}%")
+
 # %%
