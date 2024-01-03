@@ -23,6 +23,16 @@ train, val, id2label, label2id = VisionDataset.fromImageFolder(
 # %%
 huggingface_model = 'google/vit-base-patch16-224-in21k'
 
+device = torch.device("mps")
+
+model = ViTForImageClassification.from_pretrained(
+        huggingface_model,
+        num_labels = len(label2id),
+        label2id = label2id,
+        id2label = id2label
+    ),
+model.to(device)
+
 trainer = VisionClassifierTrainer(
     model_name = "MyDogClassifier",
     train = train,
@@ -31,16 +41,22 @@ trainer = VisionClassifierTrainer(
     max_epochs = 20,
     batch_size = 4,
     lr = 2e-5,
-    fp16 = False,
-    model = ViTForImageClassification.from_pretrained(
-        huggingface_model,
-        num_labels = len(label2id),
-        label2id = label2id,
-        id2label = id2label
-    ),
+    fp16 = True, # not using CUDA atm
+    model = model
     feature_extractor = ViTFeatureExtractor.from_pretrained(
         huggingface_model,
     ),
 )
+
+# %% Model Evaluation 
+y_true, y_pred = trainer.evaluate_f1_score()
+# %% mps confirmation
+import torch
+print(f"is it built? {torch.backends.mps.is_built()}")
+print(f"{torch.backends.mps.is_available()}")
+
+# %%
+device = torch.device('mps')
+print(device)
 
 # %%
