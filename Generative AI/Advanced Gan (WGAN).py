@@ -33,4 +33,8 @@ save_step = 35  # checkpoint save
 # %% generator model
 
 class Generator(nn.Module):
-    def __init__(self, z_dim=64, d_dim)
+    def __init__(self, z_dim=64, d_dim=128):
+        pass
+    
+    def forward(self):
+        pass
